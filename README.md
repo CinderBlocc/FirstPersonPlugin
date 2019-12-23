@@ -1,5 +1,7 @@
 # FirstPersonPlugin
 
+Plugin download: https://bakkesplugins.com/plugins/view/34
+
 This is the source code for the Rocket League First Person plugin. This plugin requires the parent plugin, CameraControl. The template code for creating your own camera control plugin is at the github link below.
 
 CameraControl plugin: https://bakkesplugins.com/plugins/view/71
