@@ -1,5 +1,5 @@
 #pragma once
-#pragma comment(lib, "BakkesMod.lib")
+#pragma comment(lib, "PluginSDK.lib")
 #include "bakkesmod/plugin/bakkesmodplugin.h"
 
 class FirstPersonPlugin : public BakkesMod::Plugin::BakkesModPlugin
@@ -17,8 +17,8 @@ private:
 	float interpStepsOutOfSupersonic = 0;
 
 public:
-	virtual void onLoad();
-	virtual void onUnload();
+	void onLoad() override;
+	void onUnload() override;
 
 	void CreateValues();
 	Vector project_v1_on_v2(Vector vec1, Vector vec2);
@@ -29,7 +29,7 @@ public:
 	ServerWrapper GetCurrentGameState();
 	void Initialize();
 	bool CanCreateValues();
-	bool IsCVarNull(string cvarName);
+	bool IsCVarNull(std::string cvarName);
 	void Enable();
 	void Disable();
 	void HandleValues();

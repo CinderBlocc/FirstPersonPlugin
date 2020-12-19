@@ -6,7 +6,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-using namespace std;
 
 BAKKESMOD_PLUGIN(FirstPersonPlugin, "First Person Plugin", "1.0", PLUGINTYPE_FREEPLAY)
 
@@ -14,8 +13,8 @@ BAKKESMOD_PLUGIN(FirstPersonPlugin, "First Person Plugin", "1.0", PLUGINTYPE_FRE
 void FirstPersonPlugin::onLoad()
 {
 	Initialize();
-	cvarManager->registerNotifier("FirstPersonEnable", [this](std::vector<string> params){Enable();}, "Enables first person plugin", PERMISSION_ALL);
-	cvarManager->registerNotifier("FirstPersonDisable", [this](std::vector<string> params){Disable();}, "Disables first person plugin", PERMISSION_ALL);
+	cvarManager->registerNotifier("FirstPersonEnable", [this](std::vector<std::string> params){Enable();}, "Enables first person plugin", PERMISSION_ALL);
+	cvarManager->registerNotifier("FirstPersonDisable", [this](std::vector<std::string> params){Disable();}, "Disables first person plugin", PERMISSION_ALL);
 
 	cvarManager->registerCvar("FirstPerson_UseCustomBallCam", "1", "Use true first person ball cam");
 }
@@ -271,7 +270,7 @@ void FirstPersonPlugin::onUnload(){}
 void FirstPersonPlugin::Initialize()
 {
 	//Install parent plugin if it isn't already installed. Ensure parent plugin is loaded.
-	if(!experimental::filesystem::exists(".\\bakkesmod\\plugins\\CameraControl.dll"))
+	if(!std::filesystem::exists(gameWrapper->GetBakkesModPath() / "plugins" / "CameraControl.dll"))
 		cvarManager->executeCommand("bpm_install 71");
 	cvarManager->executeCommand("plugin load CameraControl", false);
 
@@ -289,7 +288,7 @@ bool FirstPersonPlugin::CanCreateValues()
 	else
 		return true;
 }
-bool FirstPersonPlugin::IsCVarNull(string cvarName)
+bool FirstPersonPlugin::IsCVarNull(std::string cvarName)
 {
     struct CastStructOne
     {
@@ -299,7 +298,7 @@ bool FirstPersonPlugin::IsCVarNull(string cvarName)
 
 	CVarWrapper cvar = cvarManager->getCvar(cvarName);
     CastStructOne* castone = (CastStructOne*)&cvar;
-    return castone->casttwo->address == NULL;
+    return castone->casttwo->address == nullptr;
 }
 void FirstPersonPlugin::Enable()
 {
@@ -336,15 +335,15 @@ void FirstPersonPlugin::HandleValues()
 	CreateValues();
 
 	//Send value requests to the parent mod
-	string values[8];
-	values[0] = to_string(FOCUS.X);
-	values[1] = to_string(FOCUS.Y);
-	values[2] = to_string(FOCUS.Z);
-	values[3] = to_string(ROTATION.Pitch);
-	values[4] = to_string(ROTATION.Yaw);
-	values[5] = to_string(ROTATION.Roll);
-	values[6] = to_string(DISTANCE);
-	values[7] = to_string(FOV);
+	std::string values[8];
+	values[0] = std::to_string(FOCUS.X);
+	values[1] = std::to_string(FOCUS.Y);
+	values[2] = std::to_string(FOCUS.Z);
+	values[3] = std::to_string(ROTATION.Pitch);
+	values[4] = std::to_string(ROTATION.Yaw);
+	values[5] = std::to_string(ROTATION.Roll);
+	values[6] = std::to_string(DISTANCE);
+	values[7] = std::to_string(FOV);
 	
 	for(int i=0; i<8; i++)
 	{
@@ -362,9 +361,9 @@ Rotator FirstPersonPlugin::GetSwivel()
 	if(IsCVarNull("CamControl_Swivel_READONLY"))
 		return Rotator{0,0,0};
 
-	string readSwivel = cvarManager->getCvar("CamControl_Swivel_READONLY").getStringValue();
-	string swivelInputString;
-	stringstream ssSwivel(readSwivel);
+	std::string readSwivel = cvarManager->getCvar("CamControl_Swivel_READONLY").getStringValue();
+	std::string swivelInputString;
+	std::stringstream ssSwivel(readSwivel);
 
 	Rotator SWIVEL = {0,0,0};
 

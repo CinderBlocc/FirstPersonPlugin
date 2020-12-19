@@ -1,0 +1,8 @@
+#Directories
+.vs/
+UPLOAD/
+x64/
+Old/
+
+#Files
+*.user
